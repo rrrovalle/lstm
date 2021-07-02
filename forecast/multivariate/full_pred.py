@@ -50,7 +50,7 @@ X_train = []
 y_train = []
 
 n_future = 60  #number of predicts we want into the future
-n_past = 90    #number of past days we want to use to predict future
+n_past = 90    #number of past data we want to use to predict future
 
 for i in range(n_past, len(train_set_scale)- n_future +1):
   X_train.append(train_set_scale[i-n_past:1, 0:dataset_train.shape[1]-1])
@@ -61,18 +61,16 @@ X_train, y_train = np.array(X_train), np.array(y_train)
 print(f'Shape of training set \n{X_train.shape}')
 print(f'Shape of training set \n{y_train.shape}')
 
-model = Sequential()
-model.add(LSTM(64, return_sequences=True, input_shape=(n_past, dataset_train.shape[1]-1)))
-model.add(LSTM(10,return_sequences=False))
-model.add(Dropout(0.25))
-model.add(Dense(1,activation='linear'))
-model.compile(optimizer = Adam(learning_rate=0.01), loss='mean_squared_error')
-
 ## TO-DO ##
-# es  = EarlyStopping(monitor='val_loss', min_delta=1e-10, patience=10, verbose=1)
-# rlr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=10, verbose=1)
-# mcp = ModelCheckpoint(filepath='weights.h5', monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=True)
+# model = Sequential()
+# model.add(LSTM(64, return_sequences=True, input_shape=(n_past, dataset_train.shape[1]-1)))
+# model.add(LSTM(10,return_sequences=False))
+# model.add(Dropout(0.25))
+# model.add(Dense(1,activation='linear'))
+# model.compile(optimizer='adam',loss='mse')
 
-# tb = TensorBoard('logs')
+# #summary
+# model.summary()
 
-# history = model.fit(X_train, y_train, shuffle=True, epochs=30, callbacks=[es,rlr, mcp, tb], validation_split=0.2, verbose=1, batch_size=256)
+#fit
+#model.fit(X_train, y_train,epochs=200,verbose=1)
